@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
-import 'package:nikki_flutter/screen/models/models_barang_keluar.dart';
+import 'package:nikki_flutter/models/models_barang_keluar.dart';
 import 'dart:convert';
 import 'package:auto_size_text/auto_size_text.dart';
 

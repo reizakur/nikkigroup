@@ -1,5 +1,6 @@
-class ProdukModel {
-  ProdukModel.init() {
+part of'models.dart';
+class StokModel {
+  StokModel.init() {
     this.nama_br = 'Coffe Name';
     this.qty = 0;
   }
@@ -8,12 +9,12 @@ class ProdukModel {
   late String id_br_masuk, nama_br, harga, total;
   late int qty;
 
-  ProdukModel.fromjson(Map<String, dynamic> json) {
+  StokModel.fromjson(Map<String, dynamic> json) {
     this.id_br_masuk = json["id_br_masuk"];
     this.nama_br = json["nama_br"];
     this.harga = json["harga"];
     this.qty = int.parse(json["qty"]);
     this.total = json["total"];
   }
-  static List<ProdukModel> produklist = [];
+  static List<StokModel> stoklist = [];
 }

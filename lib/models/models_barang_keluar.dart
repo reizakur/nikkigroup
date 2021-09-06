@@ -1,3 +1,4 @@
+part of'models.dart';
 class BarangKeluarModel {
   BarangKeluarModel.init() {
     this.nama_pemesan = 'Coffe Name';

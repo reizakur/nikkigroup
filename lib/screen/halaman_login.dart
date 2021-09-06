@@ -1,12 +1,5 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter/services.dart';
-import 'package:nikki_flutter/screen/admin/halaman_utama.dart';
-import 'package:nikki_flutter/screen/halaman_daftar.dart';
 
-import 'package:auto_size_text/auto_size_text.dart';
-
+part of 'screens.dart';
 class HalamanLogin extends StatefulWidget {
   HalamanLogin({Key? key}) : super(key: key);
 

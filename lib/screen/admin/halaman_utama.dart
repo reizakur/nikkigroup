@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
-import 'package:nikki_flutter/screen/models/models_produk.dart';
+import 'package:nikki_flutter/models/models_produk.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/services.dart';
 

@@ -1,3 +1,4 @@
+part of'models.dart';
 class ProdukModel {
   ProdukModel.init() {
     this.nama_br = 'Coffe Name';

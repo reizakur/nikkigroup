@@ -1,10 +1,4 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter/services.dart';
-import 'package:nikki_flutter/screen/admin/halaman_utama.dart';
-import 'package:nikki_flutter/screen/agen/halaman_utama.dart';
-
+part of 'screens.dart';
 class HalamanDaftar extends StatefulWidget {
   HalamanDaftar({Key? key}) : super(key: key);
 
