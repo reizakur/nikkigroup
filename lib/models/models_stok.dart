@@ -6,11 +6,11 @@ class StokModel {
   }
 
   // ignore: non_constant_identifier_names
-  late String id_br_masuk, nama_br, harga, total;
-  late int qty;
+  String idBarangMasuk, nama_br, harga, total;
+  int qty;
 
   StokModel.fromjson(Map<String, dynamic> json) {
-    this.id_br_masuk = json["id_br_masuk"];
+    this.idBarangMasuk = json["idBarangMasuk"];
     this.nama_br = json["nama_br"];
     this.harga = json["harga"];
     this.qty = int.parse(json["qty"]);

@@ -1,14 +1,14 @@
 
 part of 'screens.dart';
 class HalamanLogin extends StatefulWidget {
-  HalamanLogin({Key? key}) : super(key: key);
+  
 
   @override
   _HalamanLoginState createState() => _HalamanLoginState();
 }
 
 class _HalamanLoginState extends State<HalamanLogin> {
-  late Size ukuranlayar;
+  Size ukuranlayar;
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(

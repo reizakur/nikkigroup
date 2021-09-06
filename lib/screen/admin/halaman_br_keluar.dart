@@ -1,22 +1,13 @@
-import 'dart:ui';
-
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:dio/dio.dart';
-import 'package:http/http.dart' as http;
-import 'package:nikki_flutter/models/models_barang_keluar.dart';
-import 'dart:convert';
-import 'package:auto_size_text/auto_size_text.dart';
-
+part of'../screens.dart';
 class HalamanBarangKeluar extends StatefulWidget {
-  HalamanBarangKeluar({Key? key}) : super(key: key);
+  
 
   @override
   _HalamanBarangKeluarState createState() => _HalamanBarangKeluarState();
 }
 
 class _HalamanBarangKeluarState extends State<HalamanBarangKeluar> {
-  late Size ukuranlayar;
+  Size ukuranlayar;
 
   void fetchProdukKeluar() async {
     BarangKeluarModel.produkkeluarlist.clear();
@@ -154,6 +145,7 @@ class _HalamanBarangKeluarState extends State<HalamanBarangKeluar> {
                                   Container(
                                     width: ukuranlayar.width * 0.18,
                                     height: ukuranlayar.height * 0.03,
+                                    // ignore: deprecated_member_use
                                     child: FlatButton(
                                       child: AutoSizeText(
                                         '+ Stok',
@@ -168,6 +160,7 @@ class _HalamanBarangKeluarState extends State<HalamanBarangKeluar> {
                                   Container(
                                     width: ukuranlayar.width * 0.18,
                                     height: ukuranlayar.height * 0.03,
+                                    // ignore: deprecated_member_use
                                     child: FlatButton(
                                       child: AutoSizeText(
                                         'Hapus',

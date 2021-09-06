@@ -1,16 +1,13 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-
+part of'../screens.dart';
 class HalamanRiwayatAgen extends StatefulWidget {
-  HalamanRiwayatAgen({Key? key}) : super(key: key);
+  
 
   @override
   _HalamanRiwayatAgenState createState() => _HalamanRiwayatAgenState();
 }
 
 class _HalamanRiwayatAgenState extends State<HalamanRiwayatAgen> {
-  late Size ukuranlayar;
+  Size ukuranlayar;
   @override
   Widget build(BuildContext context) {
     ukuranlayar = MediaQuery.of(context).size;

@@ -1,22 +1,13 @@
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:dio/dio.dart';
-import 'package:http/http.dart' as http;
-import 'package:nikki_flutter/models/models_produk.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/services.dart';
-
+part of'../screens.dart';
 class HalamanUtamaAdmin extends StatefulWidget {
-  HalamanUtamaAdmin({Key? key}) : super(key: key);
+  
 
   @override
   _HalamanUtamaAdminState createState() => _HalamanUtamaAdminState();
 }
 
 class _HalamanUtamaAdminState extends State<HalamanUtamaAdmin> {
-  late Size ukuranlayar;
+  Size ukuranlayar;
 
   void fetchProduk() async {
     ProdukModel.produklist.clear();
@@ -154,6 +145,7 @@ class _HalamanUtamaAdminState extends State<HalamanUtamaAdmin> {
                                   Container(
                                     width: ukuranlayar.width * 0.18,
                                     height: ukuranlayar.height * 0.03,
+                                    // ignore: deprecated_member_use
                                     child: FlatButton(
                                       child: AutoSizeText(
                                         '+ Stok',
@@ -168,6 +160,7 @@ class _HalamanUtamaAdminState extends State<HalamanUtamaAdmin> {
                                   Container(
                                     width: ukuranlayar.width * 0.18,
                                     height: ukuranlayar.height * 0.03,
+                                    // ignore: deprecated_member_use
                                     child: FlatButton(
                                       child: AutoSizeText(
                                         'Hapus',

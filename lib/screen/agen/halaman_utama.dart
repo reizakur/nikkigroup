@@ -1,18 +1,15 @@
-import 'package:flutter/material.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:nikki_flutter/screen/agen/halaman_pemesanan.dart';
+part of'../screens.dart';
 
-import 'package:google_fonts/google_fonts.dart';
 
 class HalamanUtamaAgen extends StatefulWidget {
-  HalamanUtamaAgen({Key? key}) : super(key: key);
+  
 
   @override
   _HalamanUtamaAgenState createState() => _HalamanUtamaAgenState();
 }
 
 class _HalamanUtamaAgenState extends State<HalamanUtamaAgen> {
-  late Size ukuranlayar;
+  Size ukuranlayar;
   @override
   Widget build(BuildContext context) {
     ukuranlayar = MediaQuery.of(context).size;

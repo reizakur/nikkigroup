@@ -1,13 +1,13 @@
 part of 'screens.dart';
 class HalamanDaftar extends StatefulWidget {
-  HalamanDaftar({Key? key}) : super(key: key);
+  
 
   @override
   _HalamanDaftarState createState() => _HalamanDaftarState();
 }
 
 class _HalamanDaftarState extends State<HalamanDaftar> {
-  late Size ukuranlayar;
+  Size ukuranlayar;
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(

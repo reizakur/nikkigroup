@@ -1,22 +1,13 @@
-import 'dart:ui';
-
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:dio/dio.dart';
-import 'package:http/http.dart' as http;
-import 'package:nikki_flutter/models/models_stok.dart';
-import 'dart:convert';
-import 'package:auto_size_text/auto_size_text.dart';
-
+part of'../screens.dart';
 class HalamanTambahStok extends StatefulWidget {
-  HalamanTambahStok({Key? key}) : super(key: key);
+  
 
   @override
   _HalamanTambahStokState createState() => _HalamanTambahStokState();
 }
 
 class _HalamanTambahStokState extends State<HalamanTambahStok> {
-  late Size ukuranlayar;
+  Size ukuranlayar;
 
   void fetchProdukKeluar() async {
     StokModel.stoklist.clear();
@@ -146,13 +137,14 @@ class _HalamanTambahStokState extends State<HalamanTambahStok> {
                                 width: ukuranlayar.width * 0.40,
                                 //  color: Colors.blue,
                                 child: AutoSizeText(
-                                    '${data.nama_barang} || ${data.qty} || ${data.total} ||'),
+                                    '${data.nama_br} || ${data.qty} || ${data.total} ||'),
                               )),
                               DataCell(Row(
                                 children: [
                                   Container(
                                     width: ukuranlayar.width * 0.18,
                                     height: ukuranlayar.height * 0.03,
+                                    // ignore: deprecated_member_use
                                     child: FlatButton(
                                       child: AutoSizeText(
                                         '+ Stok',
@@ -167,6 +159,7 @@ class _HalamanTambahStokState extends State<HalamanTambahStok> {
                                   Container(
                                     width: ukuranlayar.width * 0.18,
                                     height: ukuranlayar.height * 0.03,
+                                    // ignore: deprecated_member_use
                                     child: FlatButton(
                                       child: AutoSizeText(
                                         'Hapus',

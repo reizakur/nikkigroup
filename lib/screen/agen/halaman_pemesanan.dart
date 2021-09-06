@@ -1,18 +1,14 @@
-import 'package:flutter/material.dart';
-import 'dart:ui';
-
-import 'package:flutter/cupertino.dart';
-import 'package:auto_size_text/auto_size_text.dart';
+part of'../screens.dart';
 
 class HalamanPemesanan extends StatefulWidget {
-  HalamanPemesanan({Key? key}) : super(key: key);
+  
 
   @override
   _HalamanPemesananState createState() => _HalamanPemesananState();
 }
 
 class _HalamanPemesananState extends State<HalamanPemesanan> {
-  late Size ukuranlayar;
+  Size ukuranlayar;
   @override
   Widget build(BuildContext context) {
     ukuranlayar = MediaQuery.of(context).size;
