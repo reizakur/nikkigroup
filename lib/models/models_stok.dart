@@ -10,11 +10,12 @@ class StokModel {
   int qty;
 
   StokModel.fromjson(Map<String, dynamic> json) {
-    this.idBarangMasuk = json["idBarangMasuk"];
+    const noData ='No Data';
+    this.idBarangMasuk = json["id_br_masuk"];
     this.nama_br = json["nama_br"];
-    this.harga = json["harga"];
-    this.qty = int.parse(json["qty"]);
-    this.total = json["total"];
+    this.qty = int.parse(json["stok"]);
+    this.harga = noData;
+    this.total = noData;
   }
   static List<StokModel> stoklist = [];
 }
