@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:nikki_flutter/screen/agen/halaman_utama.dart';
+import 'package:nikki_flutter/screen/halaman_login.dart';
+import 'package:nikki_flutter/screen/models/models_produk.dart';
 
 class HalamanRiwayatAgen extends StatefulWidget {
   HalamanRiwayatAgen({Key? key}) : super(key: key);
@@ -18,7 +21,7 @@ class _HalamanRiwayatAgenState extends State<HalamanRiwayatAgen> {
       child: Scaffold(
         bottomNavigationBar: BottomAppBar(
           child: Container(
-            height: ukuranlayar.height * 0.07,
+            height: ukuranlayar.height * 0.09,
             width: ukuranlayar.width,
             color: Colors.white,
             child: Row(
@@ -28,39 +31,49 @@ class _HalamanRiwayatAgenState extends State<HalamanRiwayatAgen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Icon(
-                      Icons.home,
-                      color: Colors.blueGrey,
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HalamanUtamaAgen()));
+                      },
+                      icon: Icon(Icons.home),
                     ),
-                    Text(
-                      'Awal',
-                      style: TextStyle(color: Colors.grey),
-                    )
+                    AutoSizeText('Awal', style: TextStyle(color: Colors.grey))
                   ],
-                ),
-                InkWell(
-                  onTap: () => () {},
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.book,
-                        color: Colors.blueGrey,
-                      ),
-                      Text('Riwayat', style: TextStyle(color: Colors.grey))
-                    ],
-                  ),
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Icon(
-                      Icons.logout,
-                      color: Colors.blueGrey,
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HalamanRiwayatAgen()));
+                      },
+                      icon: Icon(Icons.add_shopping_cart_outlined),
                     ),
-                    Text('Keluar', style: TextStyle(color: Colors.grey))
+                    AutoSizeText('Pesanan',
+                        style: TextStyle(color: Colors.grey))
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HalamanLogin()));
+                      },
+                      icon: Icon(Icons.logout),
+                    ),
+                    AutoSizeText('Keluar', style: TextStyle(color: Colors.grey))
                   ],
                 ),
               ],

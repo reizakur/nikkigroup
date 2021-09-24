@@ -7,6 +7,16 @@ import 'package:http/http.dart' as http;
 import 'package:nikki_flutter/screen/models/models_barang_keluar.dart';
 import 'dart:convert';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:nikki_flutter/screen/admin/halaman_br_keluar.dart';
+import 'package:nikki_flutter/screen/admin/halaman_riwayat_stok.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:nikki_flutter/screen/admin/halaman_tambah_barang_rusak.dart';
+import 'package:nikki_flutter/screen/admin/halaman_tambah_stok.dart';
+import 'package:nikki_flutter/screen/admin/halaman_tambah_supply.dart';
+
+import 'package:nikki_flutter/screen/admin/halaman_utama.dart';
+import 'package:nikki_flutter/screen/halaman_login.dart';
 
 class HalamanBarangKeluar extends StatefulWidget {
   HalamanBarangKeluar({Key? key}) : super(key: key);
@@ -40,6 +50,26 @@ class _HalamanBarangKeluarState extends State<HalamanBarangKeluar> {
     setState(() {});
   }
 
+  void deleteBrKeluar(id_br_keluar) async {
+    BarangKeluarModel.produkkeluarlist.clear();
+    final responseku = await http.post(
+        'https://nikkigroup.joeloecs.com/mobileapi/delete_keluar.php',
+        body: {
+          "id_br_keluar": id_br_keluar,
+        });
+    var data = jsonDecode(responseku.body);
+    if (['value'] == 1) {
+      setState(() {
+        fetchProdukKeluar();
+      });
+
+      print('check length ${BarangKeluarModel.produkkeluarlist.length}');
+    } else {
+      print('NO DATA');
+    }
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
@@ -56,7 +86,7 @@ class _HalamanBarangKeluarState extends State<HalamanBarangKeluar> {
       child: Scaffold(
         bottomNavigationBar: BottomAppBar(
           child: Container(
-            height: ukuranlayar.height * 0.07,
+            height: ukuranlayar.height * 0.09,
             width: ukuranlayar.width,
             color: Colors.white,
             child: Row(
@@ -66,50 +96,97 @@ class _HalamanBarangKeluarState extends State<HalamanBarangKeluar> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Icon(
-                      Icons.home,
-                      color: Colors.blueGrey,
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HalamanUtamaAdmin()));
+                      },
+                      icon: Icon(Icons.home),
                     ),
-                    Text(
-                      'Awal',
-                      style: TextStyle(color: Colors.grey),
-                    )
-                  ],
-                ),
-                InkWell(
-                  onTap: () => () {},
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.book,
-                        color: Colors.blueGrey,
-                      ),
-                      Text('Pesanan', style: TextStyle(color: Colors.grey))
-                    ],
-                  ),
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.document_scanner,
-                      color: Colors.blueGrey,
-                    ),
-                    Text('Stok', style: TextStyle(color: Colors.grey))
+                    AutoSizeText('Awal', style: TextStyle(color: Colors.grey))
                   ],
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Icon(
-                      Icons.logout,
-                      color: Colors.blueGrey,
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HalamanBarangKeluar()));
+                      },
+                      icon: Icon(Icons.book),
                     ),
-                    Text('Keluar', style: TextStyle(color: Colors.grey))
+                    AutoSizeText('Pesanan',
+                        style: TextStyle(color: Colors.grey))
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HalamanRiwayatStok()));
+                      },
+                      icon: Icon(Icons.add_chart_sharp),
+                    ),
+                    AutoSizeText('Stok', style: TextStyle(color: Colors.grey))
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HalamanTambahSupply()));
+                      },
+                      icon: Icon(Icons.home_work_rounded),
+                    ),
+                    AutoSizeText('Supply', style: TextStyle(color: Colors.grey))
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HalamanReject()));
+                      },
+                      icon: Icon(Icons.production_quantity_limits),
+                    ),
+                    AutoSizeText('Reject', style: TextStyle(color: Colors.grey))
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HalamanLogin()));
+                      },
+                      icon: Icon(Icons.logout),
+                    ),
+                    AutoSizeText('Keluar', style: TextStyle(color: Colors.grey))
                   ],
                 ),
               ],
@@ -142,29 +219,17 @@ class _HalamanBarangKeluarState extends State<HalamanBarangKeluar> {
 
                     rows: BarangKeluarModel.produkkeluarlist
                         .map((data) => DataRow(cells: [
-                              DataCell(Container(
-                                //    height: ukuranlayar.height,
-                                width: ukuranlayar.width * 0.40,
-                                //  color: Colors.blue,
-                                child: AutoSizeText(
-                                    '${data.nama_barang} || ${data.qty} || ${data.total} ||'),
-                              )),
+                              DataCell(
+                                Container(
+                                  //    height: ukuranlayar.height,
+                                  width: ukuranlayar.width * 0.40,
+                                  //  color: Colors.blue,
+                                  child: AutoSizeText(
+                                      '${data.nama_barang} || ${data.qty} || ${data.total} || ${data.nama_pemesan}'),
+                                ),
+                              ),
                               DataCell(Row(
                                 children: [
-                                  Container(
-                                    width: ukuranlayar.width * 0.18,
-                                    height: ukuranlayar.height * 0.03,
-                                    child: FlatButton(
-                                      child: AutoSizeText(
-                                        '+ Stok',
-                                        //     style: TextStyle(color: Colors.white),
-                                      ),
-                                      color: Colors.blue,
-                                      textColor: Colors.black,
-                                      onPressed: () {},
-                                    ),
-                                  ),
-                                  Text('||'),
                                   Container(
                                     width: ukuranlayar.width * 0.18,
                                     height: ukuranlayar.height * 0.03,
@@ -175,7 +240,10 @@ class _HalamanBarangKeluarState extends State<HalamanBarangKeluar> {
                                       ),
                                       color: Colors.red,
                                       textColor: Colors.black,
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        deleteBrKeluar(data.id_br_keluar);
+                                        fetchProdukKeluar();
+                                      },
                                     ),
                                   ),
                                 ],
@@ -257,7 +325,10 @@ class _HalamanBarangKeluarState extends State<HalamanBarangKeluar> {
                         ),
                         trailing: IconButton(
                             color: Colors.white,
-                            onPressed: () {},
+                            onPressed: () {
+                              launch(
+                                  'https://nikkigroup.joeloecs.com/admin/ceta_br_keluar.php');
+                            },
                             icon: Icon(Icons.print)),
                       ),
                     ),

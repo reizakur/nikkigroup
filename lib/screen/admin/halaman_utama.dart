@@ -1,12 +1,20 @@
 import 'dart:convert';
-
+import 'dart:io';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
+import 'package:nikki_flutter/screen/admin/halaman_br_keluar.dart';
+import 'package:nikki_flutter/screen/admin/halaman_riwayat_stok.dart';
+import 'package:nikki_flutter/screen/admin/halaman_tambah_stok.dart';
+import 'package:nikki_flutter/screen/admin/halaman_tambah_supply.dart';
+import 'package:nikki_flutter/screen/admin/halaman_tambah_barang_rusak.dart';
+import 'package:nikki_flutter/screen/halaman_login.dart';
 import 'package:nikki_flutter/screen/models/models_produk.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 
 class HalamanUtamaAdmin extends StatefulWidget {
   HalamanUtamaAdmin({Key? key}) : super(key: key);
@@ -16,8 +24,27 @@ class HalamanUtamaAdmin extends StatefulWidget {
 }
 
 class _HalamanUtamaAdminState extends State<HalamanUtamaAdmin> {
-  late Size ukuranlayar;
+  File? _image;
+  Future getImage() async {
+    final image = await ImagePicker.pickImage(source: ImageSource.camera);
+    setState(() {
+      _image = image;
+    });
+  }
 
+  var dapetqty = 0;
+  var harga = 0;
+  var qty = 0;
+  var total = 0;
+  final controller_nama_produk = TextEditingController();
+  final controller_gambar = TextEditingController();
+  final controller_harga = TextEditingController();
+  final controller_qty = TextEditingController();
+  final controller_total = TextEditingController();
+  final controller_tanggal = TextEditingController();
+  final controller_stok = TextEditingController();
+  late Size ukuranlayar;
+  var dio = Dio();
   void fetchProduk() async {
     ProdukModel.produklist.clear();
     final responseku = await http.post(
@@ -39,6 +66,26 @@ class _HalamanUtamaAdminState extends State<HalamanUtamaAdmin> {
     setState(() {});
   }
 
+  void deleteProduk(id_br_masuk) async {
+    ProdukModel.produklist.clear();
+    final responseku = await http.post(
+        'https://nikkigroup.joeloecs.com/mobileapi/delete_produk.php',
+        body: {
+          "id_br_masuk": id_br_masuk,
+        });
+    var data = jsonDecode(responseku.body);
+    if (['value'] == 1) {
+      setState(() {
+        fetchProduk();
+      });
+
+      print('check length ${ProdukModel.produklist.length}');
+    } else {
+      print('NO DATA');
+    }
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
@@ -52,11 +99,12 @@ class _HalamanUtamaAdminState extends State<HalamanUtamaAdmin> {
       statusBarColor: Colors.transparent,
     ));
     ukuranlayar = MediaQuery.of(context).size;
+    print('total $total');
     return Container(
       child: Scaffold(
         bottomNavigationBar: BottomAppBar(
           child: Container(
-            height: ukuranlayar.height * 0.07,
+            height: ukuranlayar.height * 0.09,
             width: ukuranlayar.width,
             color: Colors.white,
             child: Row(
@@ -66,50 +114,97 @@ class _HalamanUtamaAdminState extends State<HalamanUtamaAdmin> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Icon(
-                      Icons.home,
-                      color: Colors.blueGrey,
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HalamanUtamaAdmin()));
+                      },
+                      icon: Icon(Icons.home),
                     ),
-                    Text(
-                      'Awal',
-                      style: TextStyle(color: Colors.grey),
-                    )
-                  ],
-                ),
-                InkWell(
-                  onTap: () => () {},
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.book,
-                        color: Colors.blueGrey,
-                      ),
-                      Text('Pesanan', style: TextStyle(color: Colors.grey))
-                    ],
-                  ),
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.document_scanner,
-                      color: Colors.blueGrey,
-                    ),
-                    Text('Stok', style: TextStyle(color: Colors.grey))
+                    AutoSizeText('Awal', style: TextStyle(color: Colors.grey))
                   ],
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Icon(
-                      Icons.logout,
-                      color: Colors.blueGrey,
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HalamanBarangKeluar()));
+                      },
+                      icon: Icon(Icons.book),
                     ),
-                    Text('Keluar', style: TextStyle(color: Colors.grey))
+                    AutoSizeText('Pesanan',
+                        style: TextStyle(color: Colors.grey))
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HalamanRiwayatStok()));
+                      },
+                      icon: Icon(Icons.add_chart_sharp),
+                    ),
+                    AutoSizeText('Qty', style: TextStyle(color: Colors.grey))
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HalamanTambahSupply()));
+                      },
+                      icon: Icon(Icons.home_work_rounded),
+                    ),
+                    AutoSizeText('Supply', style: TextStyle(color: Colors.grey))
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HalamanReject()));
+                      },
+                      icon: Icon(Icons.production_quantity_limits),
+                    ),
+                    AutoSizeText('Reject', style: TextStyle(color: Colors.grey))
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HalamanLogin()));
+                      },
+                      icon: Icon(Icons.logout),
+                    ),
+                    AutoSizeText('Keluar', style: TextStyle(color: Colors.grey))
                   ],
                 ),
               ],
@@ -122,7 +217,7 @@ class _HalamanUtamaAdminState extends State<HalamanUtamaAdmin> {
               height: ukuranlayar.height * 0.35,
               // color: Colors.blue,
               width: ukuranlayar.width * 1.00,
-              margin: EdgeInsets.only(top: ukuranlayar.height * 0.55),
+              margin: EdgeInsets.only(top: ukuranlayar.height * 0.65),
               child: ListView(
                 shrinkWrap: true,
                 children: [
@@ -147,7 +242,7 @@ class _HalamanUtamaAdminState extends State<HalamanUtamaAdmin> {
                                 width: ukuranlayar.width * 0.40,
                                 //  color: Colors.blue,
                                 child: AutoSizeText(
-                                    '${data.nama_br} || ${data.qty} || ${data.harga} ||'),
+                                    '${data.nama_barang} ${data.id_br_masuk} || ${data.qty} || ${data.harga} ||'),
                               )),
                               DataCell(Row(
                                 children: [
@@ -161,7 +256,14 @@ class _HalamanUtamaAdminState extends State<HalamanUtamaAdmin> {
                                       ),
                                       color: Colors.blue,
                                       textColor: Colors.black,
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    HalamanTambahStok(
+                                                        ProdukModel.init())));
+                                      },
                                     ),
                                   ),
                                   Text('||'),
@@ -175,7 +277,10 @@ class _HalamanUtamaAdminState extends State<HalamanUtamaAdmin> {
                                       ),
                                       color: Colors.red,
                                       textColor: Colors.black,
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        deleteProduk(data.id_br_masuk);
+                                        fetchProduk();
+                                      },
                                     ),
                                   ),
                                 ],
@@ -198,7 +303,7 @@ class _HalamanUtamaAdminState extends State<HalamanUtamaAdmin> {
               height: ukuranlayar.height * 0.10,
               color: Colors.white,
               width: ukuranlayar.width,
-              margin: EdgeInsets.only(top: ukuranlayar.height * 0.55),
+              margin: EdgeInsets.only(top: ukuranlayar.height * 0.65),
               child: Container(
                 margin: EdgeInsets.only(top: ukuranlayar.height * 0.05),
                 height: ukuranlayar.height * 0.05,
@@ -257,7 +362,10 @@ class _HalamanUtamaAdminState extends State<HalamanUtamaAdmin> {
                         ),
                         trailing: IconButton(
                             color: Colors.white,
-                            onPressed: () {},
+                            onPressed: () {
+                              launch(
+                                  'https://nikkigroup.joeloecs.com/admin/cetak_br_masuk.php');
+                            },
                             icon: Icon(Icons.print)),
                       ),
                     ),
@@ -265,7 +373,7 @@ class _HalamanUtamaAdminState extends State<HalamanUtamaAdmin> {
                 )),
             Container(
               //  alignment: Alignment.center,
-              height: ukuranlayar.height * 0.50,
+              height: ukuranlayar.height * 0.70,
               //  width: ukuranlayar.width * 0.95,
               decoration: BoxDecoration(
                   //    color: Colors.yellow,
@@ -282,8 +390,9 @@ class _HalamanUtamaAdminState extends State<HalamanUtamaAdmin> {
                           //color: Colors.blue,
                           ),
                       child: ListTile(
-                        leading: Icon(Icons.production_quantity_limits),
+                        leading: Icon(Icons.shopping_cart_sharp),
                         title: TextFormField(
+                          controller: controller_nama_produk,
                           style: TextStyle(
                             fontSize: 16,
                           ),
@@ -297,14 +406,26 @@ class _HalamanUtamaAdminState extends State<HalamanUtamaAdmin> {
                       height: ukuranlayar.height * 0.08,
                       // color: Colors.grey,
                       child: ListTile(
-                        leading: Icon(Icons.camera_alt_outlined),
+                          leading: Icon(Icons.camera_alt),
+                          title: CupertinoButton(
+                              child: _image == null
+                                  ? Text('Upload')
+                                  : Text('$_image'),
+                              onPressed: () {
+                                getImage();
+                              }))),
+                  Container(
+                      height: ukuranlayar.height * 0.08,
+                      color: Colors.grey,
+                      child: ListTile(
+                        leading: Icon(Icons.qr_code),
                         title: TextFormField(
                           style: TextStyle(
                             fontSize: 16,
                           ),
                           decoration: InputDecoration(
                             //   border: InputBorder.none,
-                            hintText: 'Foto',
+                            hintText: 'QR Code',
                           ),
                         ),
                       )),
@@ -314,6 +435,13 @@ class _HalamanUtamaAdminState extends State<HalamanUtamaAdmin> {
                       child: ListTile(
                         leading: Icon(Icons.price_change_outlined),
                         title: TextFormField(
+                          controller: controller_harga,
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) {
+                            harga = int.parse(value);
+                            total = harga * qty;
+                            setState(() {});
+                          },
                           style: TextStyle(
                             fontSize: 16,
                           ),
@@ -329,12 +457,19 @@ class _HalamanUtamaAdminState extends State<HalamanUtamaAdmin> {
                       child: ListTile(
                         leading: Icon(Icons.format_list_numbered_rtl),
                         title: TextFormField(
+                          keyboardType: TextInputType.number,
+                          controller: controller_qty,
+                          onChanged: (value) {
+                            qty = int.parse(value);
+                            total = harga * qty;
+                            setState(() {});
+                          },
                           style: TextStyle(
                             fontSize: 16,
                           ),
                           decoration: InputDecoration(
                             //   border: InputBorder.none,
-                            hintText: 'Stok',
+                            hintText: 'Qty',
                           ),
                         ),
                       )),
@@ -344,12 +479,14 @@ class _HalamanUtamaAdminState extends State<HalamanUtamaAdmin> {
                       child: ListTile(
                         leading: Icon(Icons.check),
                         title: TextFormField(
+                          controller: controller_total,
+                          readOnly: true,
                           style: TextStyle(
                             fontSize: 16,
                           ),
                           decoration: InputDecoration(
                             //   border: InputBorder.none,
-                            hintText: 'Total',
+                            hintText: '$total',
                           ),
                         ),
                       )),
@@ -388,8 +525,23 @@ class _HalamanUtamaAdminState extends State<HalamanUtamaAdmin> {
                               style: TextStyle(fontSize: 19),
                             ),
                             color: CupertinoColors.activeGreen,
-                            onPressed: () {
-                              print('kirim');
+                            onPressed: () async {
+                              DateTime now = new DateTime.now();
+                              var formData = FormData.fromMap({
+                                'nama_barang': controller_nama_produk.text,
+                                'harga': controller_harga.text,
+                                'qty': controller_qty.text,
+                                'total': '$total',
+                                'tanggal': '$now',
+                                'gambar': await MultipartFile.fromFile(
+                                    _image?.path,
+                                    filename: 'gambar${now.toString()}.png'),
+                              });
+                              var response = await dio.post(
+                                  'https://joeloecs.com/bersama/nikki/mobileapi/tambah_barang.php',
+                                  data: formData);
+                              print(
+                                  'berhasil, ${controller_gambar.text},${controller_harga.text},${controller_total.text},${controller_nama_produk.text},${controller_qty.text}');
                             },
                           ),
                         ),

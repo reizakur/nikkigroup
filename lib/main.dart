@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nikki_flutter/screen/admin/halaman_br_keluar.dart';
 import 'package:nikki_flutter/screen/admin/halaman_tambah_stok.dart';
+import 'package:nikki_flutter/screen/admin/halaman_tambah_supply.dart';
 import 'package:nikki_flutter/screen/admin/halaman_utama.dart';
 import 'package:nikki_flutter/screen/agen/halaman_riwayat.dart';
 import 'package:nikki_flutter/screen/agen/halaman_utama.dart';
@@ -16,11 +17,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HalamanTambahStok(),
+      home: HalamanUtamaAdmin(),
     );
   }
 }

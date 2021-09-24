@@ -8,8 +8,23 @@ import 'package:nikki_flutter/screen/models/models_stok.dart';
 import 'dart:convert';
 import 'package:auto_size_text/auto_size_text.dart';
 
+import 'package:dio/dio.dart';
+import 'package:http/http.dart' as http;
+import 'package:nikki_flutter/screen/models/models_produk.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:nikki_flutter/screen/admin/halaman_br_keluar.dart';
+import 'package:nikki_flutter/screen/admin/halaman_riwayat_stok.dart';
+import 'package:nikki_flutter/screen/admin/halaman_tambah_stok.dart';
+import 'package:nikki_flutter/screen/admin/halaman_tambah_supply.dart';
+
+import 'package:nikki_flutter/screen/admin/halaman_tambah_barang_rusak.dart';
+import 'package:nikki_flutter/screen/admin/halaman_utama.dart';
+import 'package:nikki_flutter/screen/halaman_login.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 class HalamanTambahStok extends StatefulWidget {
-  HalamanTambahStok({Key? key}) : super(key: key);
+  final ProdukModel model;
+  HalamanTambahStok(this.model);
 
   @override
   _HalamanTambahStokState createState() => _HalamanTambahStokState();
@@ -55,7 +70,7 @@ class _HalamanTambahStokState extends State<HalamanTambahStok> {
       child: Scaffold(
         bottomNavigationBar: BottomAppBar(
           child: Container(
-            height: ukuranlayar.height * 0.07,
+            height: ukuranlayar.height * 0.09,
             width: ukuranlayar.width,
             color: Colors.white,
             child: Row(
@@ -65,50 +80,97 @@ class _HalamanTambahStokState extends State<HalamanTambahStok> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Icon(
-                      Icons.home,
-                      color: Colors.blueGrey,
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HalamanUtamaAdmin()));
+                      },
+                      icon: Icon(Icons.home),
                     ),
-                    Text(
-                      'Awal',
-                      style: TextStyle(color: Colors.grey),
-                    )
-                  ],
-                ),
-                InkWell(
-                  onTap: () => () {},
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.book,
-                        color: Colors.blueGrey,
-                      ),
-                      Text('Pesanan', style: TextStyle(color: Colors.grey))
-                    ],
-                  ),
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.document_scanner,
-                      color: Colors.blueGrey,
-                    ),
-                    Text('Stok', style: TextStyle(color: Colors.grey))
+                    AutoSizeText('Awal', style: TextStyle(color: Colors.grey))
                   ],
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Icon(
-                      Icons.logout,
-                      color: Colors.blueGrey,
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HalamanBarangKeluar()));
+                      },
+                      icon: Icon(Icons.book),
                     ),
-                    Text('Keluar', style: TextStyle(color: Colors.grey))
+                    AutoSizeText('Pesanan',
+                        style: TextStyle(color: Colors.grey))
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HalamanRiwayatStok()));
+                      },
+                      icon: Icon(Icons.add_chart_sharp),
+                    ),
+                    AutoSizeText('Stok', style: TextStyle(color: Colors.grey))
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HalamanTambahSupply()));
+                      },
+                      icon: Icon(Icons.home_work_rounded),
+                    ),
+                    AutoSizeText('Supply', style: TextStyle(color: Colors.grey))
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HalamanReject()));
+                      },
+                      icon: Icon(Icons.production_quantity_limits),
+                    ),
+                    AutoSizeText('Reject', style: TextStyle(color: Colors.grey))
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HalamanLogin()));
+                      },
+                      icon: Icon(Icons.logout),
+                    ),
+                    AutoSizeText('Keluar', style: TextStyle(color: Colors.grey))
                   ],
                 ),
               ],
@@ -117,124 +179,6 @@ class _HalamanTambahStokState extends State<HalamanTambahStok> {
         ),
         body: Stack(
           children: [
-            Container(
-              margin: EdgeInsets.only(top: ukuranlayar.height * 0.10),
-              //  color: Colors.red,
-              //  height: ukuranlayar.height * 0.90,
-              width: ukuranlayar.width,
-              child: ListView(
-                shrinkWrap: true,
-                children: [
-                  DataTable(
-                    columns: const <DataColumn>[
-                      DataColumn(
-                        label: Text(
-                          '',
-                        ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          '',
-                        ),
-                      ),
-                    ],
-
-                    rows: StokModel.stoklist
-                        .map((data) => DataRow(cells: [
-                              DataCell(Container(
-                                //    height: ukuranlayar.height,
-                                width: ukuranlayar.width * 0.40,
-                                //  color: Colors.blue,
-                                child: AutoSizeText(
-                                    '${data.nama_barang} || ${data.qty} || ${data.total} ||'),
-                              )),
-                              DataCell(Row(
-                                children: [
-                                  Container(
-                                    width: ukuranlayar.width * 0.18,
-                                    height: ukuranlayar.height * 0.03,
-                                    child: FlatButton(
-                                      child: AutoSizeText(
-                                        '+ Stok',
-                                        //     style: TextStyle(color: Colors.white),
-                                      ),
-                                      color: Colors.blue,
-                                      textColor: Colors.black,
-                                      onPressed: () {},
-                                    ),
-                                  ),
-                                  Text('||'),
-                                  Container(
-                                    width: ukuranlayar.width * 0.18,
-                                    height: ukuranlayar.height * 0.03,
-                                    child: FlatButton(
-                                      child: AutoSizeText(
-                                        'Hapus',
-                                        //   style: TextStyle(fontSize: 10.0),
-                                      ),
-                                      color: Colors.red,
-                                      textColor: Colors.black,
-                                      onPressed: () {},
-                                    ),
-                                  ),
-                                ],
-                              )),
-                            ]))
-                        .toList(),
-                    // const <DataRow>[
-                    //   DataRow(
-                    //     cells: <DataCell>[
-                    //       DataCell(Text('Mohit')),
-                    //       DataCell(Text('23')),
-                    //     ],
-                    //   ),
-                    // ],
-                  )
-                ],
-              ),
-            ),
-            Container(
-              height: ukuranlayar.height * 0.10,
-              color: Colors.white,
-              width: ukuranlayar.width,
-              margin: EdgeInsets.only(top: ukuranlayar.height * 0.10),
-              child: Container(
-                margin: EdgeInsets.only(top: ukuranlayar.height * 0.05),
-                height: ukuranlayar.height * 0.05,
-                color: Colors.blue,
-                child: Row(
-                  //         mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Container(
-                      width: ukuranlayar.width * 0.25,
-                      margin: EdgeInsets.only(left: ukuranlayar.width * 0.04),
-                      //  color: Colors.black,
-                      child: Text(
-                        'Nama Barang',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    Container(
-                      width: ukuranlayar.width * 0.25,
-                      // color: Colors.white,
-                      margin: EdgeInsets.only(left: ukuranlayar.width * 0.11),
-                      child: Text(
-                        'Stok',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    Container(
-                      width: ukuranlayar.width * 0.25,
-                      //  color: Colors.black,
-
-                      margin: EdgeInsets.only(left: ukuranlayar.width * 0.08),
-                      child:
-                          Text('Harga', style: TextStyle(color: Colors.white)),
-                    ),
-                  ],
-                ),
-              ),
-            ),
             Container(
                 width: ukuranlayar.width,
                 height: ukuranlayar.height * 0.105,
@@ -248,20 +192,113 @@ class _HalamanTambahStokState extends State<HalamanTambahStok> {
                       //   color: Colors.blue[400],
                       child: ListTile(
                         title: Text(
-                          'Data Tambah Stok',
+                          'Tambah Stok',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
                               color: Colors.white),
                         ),
-                        trailing: IconButton(
+                        leading: IconButton(
                             color: Colors.white,
                             onPressed: () {},
-                            icon: Icon(Icons.print)),
+                            icon: Icon(Icons.arrow_back)),
                       ),
                     ),
                   ],
                 )),
+            Container(
+              //  alignment: Alignment.center,
+              height: ukuranlayar.height * 0.50,
+              //  width: ukuranlayar.width * 0.95,
+              decoration: BoxDecoration(
+                  //    color: Colors.yellow,
+                  ),
+              margin: EdgeInsets.only(
+                top: ukuranlayar.height * 0.105,
+                //      left: ukuranlayar.width * 0.02),
+              ),
+              child: Column(
+                children: [
+                  Container(
+                      height: ukuranlayar.height * 0.08,
+                      decoration: BoxDecoration(
+                          //color: Colors.blue,
+                          ),
+                      child: ListTile(
+                        leading: Icon(Icons.production_quantity_limits),
+                        title: TextFormField(
+                          readOnly: true,
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                          decoration: InputDecoration(
+                            //   border: InputBorder.none,
+                            hintText: 'Stok Tersedia',
+                          ),
+                        ),
+                      )),
+                  Container(
+                      height: ukuranlayar.height * 0.08,
+                      // color: Colors.grey,
+                      child: ListTile(
+                        leading: Icon(Icons.plus_one),
+                        title: TextFormField(
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                          decoration: InputDecoration(
+                            //   border: InputBorder.none,
+                            hintText: 'Tambah Stok',
+                          ),
+                        ),
+                      )),
+                  Container(
+                    height: ukuranlayar.height * 0.10,
+                    //   margin: EdgeInsets.only(bottom: ukuranlayar.height * 0.50),
+                    //  width: ukuranlayar.width * 0.95,
+                    decoration: BoxDecoration(
+                      //   color: Colors.red,
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(10),
+                          bottomRight: Radius.circular(10)),
+                    ),
+                    child: Stack(
+                      children: [
+                        Container(
+                          // height: ukuranlayar.height * 0.05,
+                          //  width: ukuranlayar.width * 0.95,
+                          decoration: BoxDecoration(
+                            //       color: Colors.blue[400],
+                            borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(50),
+                                bottomRight: Radius.circular(50)),
+                          ),
+                        ),
+                        Container(
+                          //   color: Colors.green,
+                          height: ukuranlayar.height * 0.06,
+                          //   width: ukuranlayar.width * 0.65,
+                          margin: EdgeInsets.only(
+                              top: ukuranlayar.height * 0.020,
+                              left: ukuranlayar.width * 0.28),
+                          child: CupertinoButton(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Text(
+                              'Kirim',
+                              style: TextStyle(fontSize: 19),
+                            ),
+                            color: CupertinoColors.activeGreen,
+                            onPressed: () {
+                              print('kirim');
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
