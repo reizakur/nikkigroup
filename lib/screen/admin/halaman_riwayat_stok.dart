@@ -18,14 +18,14 @@ import 'package:nikki_flutter/screen/halaman_login.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HalamanRiwayatStok extends StatefulWidget {
-  HalamanRiwayatStok({Key? key}) : super(key: key);
+  
 
   @override
   _HalamanRiwayatStokState createState() => _HalamanRiwayatStokState();
 }
 
 class _HalamanRiwayatStokState extends State<HalamanRiwayatStok> {
-  late Size ukuranlayar;
+   late Size ukuranlayar;
 
   void fetchStok() async {
     StokModel.stoklist.clear();

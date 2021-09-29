@@ -19,7 +19,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HalamanReject extends StatefulWidget {
-  HalamanReject({Key? key}) : super(key: key);
+  
 
   @override
   _HalamanRejectState createState() => _HalamanRejectState();
@@ -45,7 +45,7 @@ class _HalamanRejectState extends State<HalamanReject> {
   final controller_total = TextEditingController();
   final controller_tanggal = TextEditingController();
   final controller_stok = TextEditingController();
-  late Size ukuranlayar;
+   late Size ukuranlayar;
   var dio = Dio();
   void fetchProdukRusak() async {
     RusakModel.rusaklist.clear();

@@ -34,6 +34,8 @@ dev_dependencies:
   dio: ^3.0.10
   http: any
   auto_size_text: ^2.1.0
+  shared_preferences: ^2.0.5      
+  intl: ^0.17.0  
   google_fonts: ^1.1.2
   url_launcher:
 # For information on the generic Dart part of this file, see the
