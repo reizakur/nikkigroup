@@ -93,8 +93,7 @@ class UserData {
     pref.setString(UserData.username_str, data['username']);
     pref.setString(UserData.user_name_str, data['nama']);
     pref.setString(UserData.user_email_str, data['gmail']);
-    pref.setString(UserData.user_phone_str, data['no_hp']);
-    pref.setString(UserData.user_pass_str, data['password']);    
+    pref.setString(UserData.user_phone_str, data['no_hp']);    
     pref.setString(UserData.user_picUrl_str, data['gambar']);    
     pref.setString(UserData.user_address_str, data['alamat']);    
     if (data['akses'] == 'adm') {

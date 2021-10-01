@@ -27,6 +27,11 @@ class _HalamanLoginState extends State<HalamanLogin> {
 
   Future<void> fetchUser() async {
     APIUserService apiUserService = APIUserService();
+    // ignore: unnecessary_null_comparison
+    if(controller_username.text==null||controller_username.text==''||controller_password.text==null||controller_password.text==''){
+      showWarning();
+      return;
+    }
     var result = await apiUserService.loginUser(
         user: controller_username.text, pass: controller_password.text);
     switch (result) {
@@ -46,6 +51,10 @@ class _HalamanLoginState extends State<HalamanLogin> {
       default:
         break;
     }
+  }
+
+  void showWarning(){
+    //do something
   }
 
   @override
