@@ -28,7 +28,10 @@ class _HalamanLoginState extends State<HalamanLogin> {
   Future<void> fetchUser() async {
     APIUserService apiUserService = APIUserService();
     // ignore: unnecessary_null_comparison
-    if(controller_username.text==null||controller_username.text==''||controller_password.text==null||controller_password.text==''){
+    if (controller_username.text == null ||
+        controller_username.text == '' ||
+        controller_password.text == null ||
+        controller_password.text == '') {
       showWarning();
       return;
     }
@@ -36,8 +39,9 @@ class _HalamanLoginState extends State<HalamanLogin> {
         user: controller_username.text, pass: controller_password.text);
     switch (result) {
       case 0:
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => HalamanUtamaAdmin()));
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => HalamanUtamaAdmin()),
+            (Route<dynamic> route) => false);        
         break;
       case 1:
         controller_username.clear();
@@ -46,15 +50,16 @@ class _HalamanLoginState extends State<HalamanLogin> {
         //Invalid Account
         break;
       case 3:
-        //network error        
+        //network error
         break;
       default:
         break;
     }
   }
 
-  void showWarning(){
-    //do something
+  void showWarning() {
+    //do something if username or password isn't filled correctly
+    
   }
 
   @override

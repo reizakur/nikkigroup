@@ -160,28 +160,7 @@ class _HalamanDaftarState extends State<HalamanDaftar> {
                       ),
                       color: CupertinoColors.activeOrange,
                       onPressed: () async {
-                        DateTime now = new DateTime.now();
-
-                        var formData = FormData.fromMap({
-                          'nama': controller_nama.text,
-                          'no_hp': controller_no_hp.text,
-                          'alamat': controller_alamat.text,
-                          'gmail': controller_gmail.text,
-                          'username': controller_username.text,
-                          'password': controller_password.text,
-                          'tanggal': '$now',
-                          'akses': '$akses',
-                          'gambar': '',
-                        });
-                        var response = await dio.post(
-                            'https://joeloecs.com/bersama/nikki/mobileapi/tambah_user.php',
-                            data: formData);
-                        print(
-                            'berhasil, ${controller_gambar.text},${controller_nama.text},${controller_no_hp.text},${controller_alamat.text},$akses');
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HalamanLogin()));
+                        registration();
                       },
                     ),
                   ),
@@ -192,5 +171,37 @@ class _HalamanDaftarState extends State<HalamanDaftar> {
         ),
       ),
     );
+  }
+
+  void showWarning() {
+    //do something if username or password isn't filled correctly
+  }
+
+  void registration() async {
+    if (controller_username.text == null ||
+        controller_username.text == '' ||
+        controller_password.text == null ||
+        controller_password.text == '') {
+      showWarning();
+    }
+    DateTime now = new DateTime.now();
+    var formData = FormData.fromMap({
+      'nama': controller_nama.text,
+      'no_hp': controller_no_hp.text,
+      'alamat': controller_alamat.text,
+      'gmail': controller_gmail.text,
+      'username': controller_username.text,
+      'password': controller_password.text,
+      'tanggal': '$now',
+      'akses': '$akses',
+      'gambar': '',
+    });
+    var response = await dio.post(
+        'https://joeloecs.com/bersama/nikki/mobileapi/tambah_user.php',
+        data: formData);
+    print(
+        'berhasil, ${controller_gambar.text},${controller_nama.text},${controller_no_hp.text},${controller_alamat.text},$akses');
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => HalamanLogin()));
   }
 }
