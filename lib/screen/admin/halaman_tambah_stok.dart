@@ -20,6 +20,7 @@ import 'package:nikki_flutter/screen/admin/halaman_tambah_supply.dart';
 import 'package:nikki_flutter/screen/admin/halaman_tambah_barang_rusak.dart';
 import 'package:nikki_flutter/screen/admin/halaman_utama.dart';
 import 'package:nikki_flutter/screen/halaman_login.dart';
+import 'package:nikki_flutter/service/API_service/API_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HalamanTambahStok extends StatefulWidget {
@@ -31,8 +32,10 @@ class HalamanTambahStok extends StatefulWidget {
 }
 
 class _HalamanTambahStokState extends State<HalamanTambahStok> {
-   late Size ukuranlayar;
-
+  late Size ukuranlayar;
+  APIStockService apiStockService = APIStockService();
+  TextEditingController newStokController = TextEditingController();
+  TextEditingController stoktersediaController = TextEditingController();
   void fetchProdukKeluar() async {
     StokModel.stoklist.clear();
     final responseku = await http.post(
@@ -57,8 +60,8 @@ class _HalamanTambahStokState extends State<HalamanTambahStok> {
   @override
   void initState() {
     super.initState();
-    fetchProdukKeluar();
-    print(widget.model.id_br_masuk);
+    stoktersediaController.text = 'No data';
+    fetchProdukKeluar();    
   }
 
   Widget build(BuildContext context) {
@@ -231,6 +234,8 @@ class _HalamanTambahStokState extends State<HalamanTambahStok> {
                           style: TextStyle(
                             fontSize: 16,
                           ),
+                          controller: stoktersediaController,
+                          enabled: false,
                           decoration: InputDecoration(
                             //   border: InputBorder.none,
                             hintText: 'Stok Tersedia',
@@ -243,6 +248,7 @@ class _HalamanTambahStokState extends State<HalamanTambahStok> {
                       child: ListTile(
                         leading: Icon(Icons.plus_one),
                         title: TextFormField(
+                          controller: newStokController,
                           style: TextStyle(
                             fontSize: 16,
                           ),
@@ -289,7 +295,7 @@ class _HalamanTambahStokState extends State<HalamanTambahStok> {
                             ),
                             color: CupertinoColors.activeGreen,
                             onPressed: () {
-                              print('kirim');
+                              updateToDatabase();
                             },
                           ),
                         ),
@@ -303,5 +309,15 @@ class _HalamanTambahStokState extends State<HalamanTambahStok> {
         ),
       ),
     );
+  }
+
+  void updateToDatabase() async {
+    var result = await apiStockService.tambahStok(
+        newStok: newStokController.text, idBarang: widget.model.id_br_masuk);
+    if (result == 0) {
+      Navigator.pop(context);
+    } else {
+      print('Something went wrong');
+    }
   }
 }
