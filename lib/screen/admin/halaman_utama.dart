@@ -262,7 +262,7 @@ class _HalamanUtamaAdminState extends State<HalamanUtamaAdmin> {
                                             MaterialPageRoute(
                                                 builder: (context) =>
                                                     HalamanTambahStok(
-                                                        ProdukModel.init())));
+                                                        data)));
                                       },
                                     ),
                                   ),

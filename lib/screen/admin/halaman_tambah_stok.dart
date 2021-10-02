@@ -57,8 +57,8 @@ class _HalamanTambahStokState extends State<HalamanTambahStok> {
   @override
   void initState() {
     super.initState();
-
     fetchProdukKeluar();
+    print(widget.model.id_br_masuk);
   }
 
   Widget build(BuildContext context) {
