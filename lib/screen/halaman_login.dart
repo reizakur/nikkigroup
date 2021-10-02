@@ -9,6 +9,8 @@ import 'package:dio/dio.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'dart:convert';
 import 'package:nikki_flutter/screen/models/models_user.dart';
+import 'package:nikki_flutter/service/API_service/API_service.dart';
+import 'package:nikki_flutter/service/SP_service/SP_service.dart';
 
 class HalamanLogin extends StatefulWidget {
   HalamanLogin({Key? key}) : super(key: key);
@@ -22,24 +24,42 @@ class _HalamanLoginState extends State<HalamanLogin> {
   final controller_password = TextEditingController();
   var dio = Dio();
   late Size ukuranlayar;
-  void fetchUser() async {
-    UserModel.userlist.clear();
-    final responseku = await http
-        .post('https://nikkigroup.joeloecs.com/mobileapi/login_exe.php', body: {
-      "res_id": 'nothing',
-    });
-    var data = jsonDecode(responseku.body);
-    if (data[0]['result'] == '1') {
-      print(data[1].toString());
-      int count = data[1].length;
-      for (int i = 0; i < count; i++) {
-        UserModel.userlist.add(UserModel.fromjson(data[1][i]));
-      }
-      print('check length ${UserModel.userlist.length}');
-    } else {
-      print('NO DATA');
+
+  Future<void> fetchUser() async {
+    APIUserService apiUserService = APIUserService();
+    // ignore: unnecessary_null_comparison
+    if (controller_username.text == null ||
+        controller_username.text == '' ||
+        controller_password.text == null ||
+        controller_password.text == '') {
+      showWarning();
+      return;
     }
-    setState(() {});
+    var result = await apiUserService.loginUser(
+        user: controller_username.text, pass: controller_password.text);
+    switch (result) {
+      case 0:
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => HalamanUtamaAdmin()),
+            (Route<dynamic> route) => false);        
+        break;
+      case 1:
+        controller_username.clear();
+        controller_password.clear();
+        setState(() {});
+        //Invalid Account
+        break;
+      case 3:
+        //network error
+        break;
+      default:
+        break;
+    }
+  }
+
+  void showWarning() {
+    //do something if username or password isn't filled correctly
+    
   }
 
   @override
@@ -136,21 +156,7 @@ class _HalamanLoginState extends State<HalamanLogin> {
                           ),
                           color: CupertinoColors.activeOrange,
                           onPressed: () async {
-                            var formData = FormData.fromMap({
-                              'username': controller_username.text,
-                              'password': controller_password.text,
-                            });
-                            var response = await dio.post(
-                                'https://joeloecs.com/bersama/nikki/mobileapi/login_exe.php',
-                                data: formData);
-                            print(
-                                'berhasil, ${controller_username.text},${controller_password.text}');
-                            fetchUser();
-
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HalamanUtamaAdmin()));
+                            await fetchUser();
                           },
                         ),
                       ),

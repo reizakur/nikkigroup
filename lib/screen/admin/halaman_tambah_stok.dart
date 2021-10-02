@@ -31,7 +31,7 @@ class HalamanTambahStok extends StatefulWidget {
 }
 
 class _HalamanTambahStokState extends State<HalamanTambahStok> {
-  late Size ukuranlayar;
+   late Size ukuranlayar;
 
   void fetchProdukKeluar() async {
     StokModel.stoklist.clear();
