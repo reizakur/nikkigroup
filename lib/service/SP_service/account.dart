@@ -1,6 +1,7 @@
 part of 'SP_service.dart';
 class UserData {
   static const String logstatus = "_statuslog_str";
+  static const String user_id_str = "user_id_str";
   static const String user_name_str = "user_name_str";
   static const String user_email_str = "user_email_str";
   static const String user_address_str = "user_address_str";
@@ -19,6 +20,7 @@ class UserData {
   static String _userPassword = '';
   static String _userPhone = '';
   static String _userPicUrl = '';
+  static String _userID = '';
 
   bool getAdminStatus() {
     return _isAdmin;
@@ -30,6 +32,10 @@ class UserData {
 
   String getUserPassword() {
     return _userPassword;
+  }
+
+  String getUserID() {
+    return _userID;
   }
 
   String getUsernameID() {
@@ -58,6 +64,7 @@ class UserData {
 
   void printdevinfo() {
     print("\n\n======[info]=======]");
+    print("ID       : $_userID");
     print("Username : $_userName");
     print("Name     : $_userNameOfUser");
     print("Email    : $_userEmail");
@@ -72,6 +79,7 @@ class UserData {
   Future<void> logOut() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     const String nodata = 'No Data Avail';
+    pref.setString(UserData.user_id_str, nodata);
     pref.setString(UserData.username_str, nodata);
     pref.setString(UserData.user_name_str, nodata);
     pref.setString(UserData.user_email_str, nodata);
@@ -90,6 +98,7 @@ class UserData {
   Future<void> setUser({required Map data}) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     pref.setBool(UserData.logstatus, true);
+    pref.setString(UserData.user_id_str, data['id']);
     pref.setString(UserData.username_str, data['username']);
     pref.setString(UserData.user_name_str, data['nama']);
     pref.setString(UserData.user_email_str, data['gmail']);
@@ -109,6 +118,7 @@ class UserData {
 
   Future<void> getPref() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
+    _userID = pref.getString(user_id_str).toString();
     _userName = pref.getString(username_str).toString();
     _userNameOfUser = pref.getString(user_name_str).toString();
     _userPassword = pref.getString(user_pass_str).toString();
