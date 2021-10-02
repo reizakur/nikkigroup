@@ -61,7 +61,7 @@ class _HalamanTambahStokState extends State<HalamanTambahStok> {
   void initState() {
     super.initState();
     stoktersediaController.text = 'No data';
-    fetchProdukKeluar();    
+    fetchProdukKeluar();
   }
 
   Widget build(BuildContext context) {
@@ -313,7 +313,9 @@ class _HalamanTambahStokState extends State<HalamanTambahStok> {
 
   void updateToDatabase() async {
     var result = await apiStockService.tambahStok(
-        newStok: newStokController.text, idBarang: widget.model.id_br_masuk);
+        newStok: newStokController.text,
+        idBarang: widget.model.id_br_masuk,
+        oldStock: widget.model.qty.toString());
     if (result == 0) {
       Navigator.pop(context);
     } else {
