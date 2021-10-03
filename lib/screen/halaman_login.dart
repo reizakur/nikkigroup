@@ -24,6 +24,7 @@ class _HalamanLoginState extends State<HalamanLogin> {
   final controller_password = TextEditingController();
   var dio = Dio();
   late Size ukuranlayar;
+  UserData userData = UserData();
 
   Future<void> fetchUser() async {
     APIUserService apiUserService = APIUserService();
@@ -39,9 +40,17 @@ class _HalamanLoginState extends State<HalamanLogin> {
         user: controller_username.text, pass: controller_password.text);
     switch (result) {
       case 0:
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => HalamanUtamaAdmin()),
-            (Route<dynamic> route) => false);        
+        if (userData.getAdminStatus()) {
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => HalamanUtamaAdmin()),
+              (Route<dynamic> route) => false);
+        } else {
+          Navigator.of(context).pushAndRemoveUntil(
+            //Client
+              MaterialPageRoute(builder: (context) => HalamanUtamaAdmin()),
+              (Route<dynamic> route) => false);
+        }
+
         break;
       case 1:
         controller_username.clear();
@@ -59,7 +68,6 @@ class _HalamanLoginState extends State<HalamanLogin> {
 
   void showWarning() {
     //do something if username or password isn't filled correctly
-    
   }
 
   @override
