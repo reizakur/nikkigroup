@@ -1,0 +1,9 @@
+import 'package:flutter/cupertino.dart';
+import 'package:penguin_new_version/models/models.dart';
+import 'package:penguin_new_version/shared/shared.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+part 'Account_preferences.dart';
+part 'TimeStamp_preferences.dart';
+part 'UserSetting_preferences.dart';
+part 'PendingSetting_preferences.dart';
+part 'Chips_preferences.dart';

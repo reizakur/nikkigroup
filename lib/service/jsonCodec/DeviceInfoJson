@@ -1,0 +1,139 @@
+import 'package:flutter/material.dart';
+
+class DeviceJsonCodec {
+  static List<dynamic> jsonList = [];
+  DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+
+  String getData() async {
+    return 'testing()';
+  }
+
+  Future<Map> testing() {
+    var map = Map<String, dynamic>();
+    map['test hasil'] = 'Hello world';
+    return map;
+  }
+
+  //membentuk lapisan 1
+  dynamic _getHeaderLayer() async {
+    var map = Map<String, dynamic>();
+    //map['store'] = _getStore;
+    //map['deviceInfo'] = await _getDeviceInfo();
+    map['packageInfo'] = _getPackageInfo();
+    return map;
+  }
+
+  dynamic _getStore() async {
+    var map = Map<String, dynamic>();
+    // var data = await deviceInfoPlugin.androidInfo;
+    DeviceJsonCodec.jsonList = [];
+    map['storeName'] = 'Toko Jaya Abadi';
+    map['lat'] = '106.70095145702363';
+    map['lng'] = '106.70095145702363';
+    map['surveyorID'] = '106.70095145702363';
+    map['dateInput'] = '1000000';
+    map['imageIDs'] = '2021-12-20T15:48:07.221447';
+    return map;
+  }
+
+  dynamic _getDeviceInfo() async {
+    var map = Map<String, dynamic>();
+    var data = await deviceInfoPlugin.androidInfo;
+    DeviceJsonCodec.jsonList = [];
+    // DeviceJsonCodec.jsonList = await _getScannerDataLayer();
+    // print(DeviceJsonCodec.jsonList);
+    map['version.securityPatch'] = data.version.securityPatch;
+    map['version.sdkInt'] = data.version.sdkInt;
+    map['version.release'] = data.version.release;
+    map['version.previewSdkInt'] = data.version.previewSdkInt;
+    map['version.incremental'] = data.version.incremental;
+    map['version.codename'] = data.version.codename;
+    map['version.baseOS'] = data.version.baseOS;
+    map['board'] = data.board;
+    map['bootloader'] = data..bootloader;
+    map['brand'] = data.brand;
+    map['device'] = data.device;
+    map['display'] = data.display;
+    map['fingerprint'] = data.fingerprint;
+    map['hardware'] = data.hardware;
+    map['host'] = data.host;
+    map['id'] = data.id;
+    map['manufacturer'] = data.manufacturer;
+    map['model'] = data.model;
+    map['product'] = data.product;
+    map['supported32BitAbis'] = data.supported32BitAbis;
+    map['supported64BitAbis'] = data.supported64BitAbis;
+    map['supportedAbis'] = data.supportedAbis;
+    map['tags'] = data.tags;
+    map['type'] = data.type;
+    map['isPhysicalDevice'] = data.isPhysicalDevice;
+    map['androidId'] = data.androidId;
+    map['systemFeatures'] = data.systemFeatures;
+    map['lat'] = 'data.version.securityPatch';
+    map['lng'] = 'data.version.securityPatch';
+
+    return map;
+  }
+
+  dynamic _getPackageInfo() async {
+    var map = Map<String, dynamic>();
+    // var data = await deviceInfoPlugin.androidInfo;
+    DeviceJsonCodec.jsonList = [];
+    map['appName'] = 'Penguin Survey App';
+    map['packageName'] = 'com.example.pg_survey_app';
+    map['version'] = '1.0.0';
+    map['buildNumber'] = '1';
+    map['buildSignature'] = 'DDA35A0EC00959B872DB5638ED771FDA95B45EAC';
+
+    return map;
+  }
+
+  // Future<dynamic> _getScannerDataLayer() async {
+  //   int counter = 0;
+  //   for (int i = 0; i < Shipment.listofdata.length; i++) {
+  //     if (Shipment.listofdata[i].SP_ID == this.SP_ID) {
+  //       var map = Map<String, dynamic>();
+  //       if (counter == 0) {
+  //         map['id'] = Shipment.listofdata[i].SP_ID;
+  //         map['type'] = 'shipment';
+  //         map['code'] = Shipment.listofdata[i].SP_Content;
+  //         map['image'] = await _getImageShipment(Shipment.listofdata[i]);
+  //       } else {
+  //         map['id'] = Shipment.listofdata[i].SP_ProductionID;
+  //         map['type'] = 'product';
+  //         map['code'] = Shipment.listofdata[i].SP_ProductionContent;
+  //         map['image'] = await _getImageProduct(Shipment.listofdata[i]);
+  //       }
+  //       print('ini apa sih type nya :${map['type']}');
+  //       print('ini loh hasil map ke $i adalah : ${map}');
+  //       counter++;
+  //       for (int a = 0; a < jsonList.length; a++) {
+  //         print('cek map semua adalah ${jsonList[a]}');
+  //       }
+  //       print('Jumlah length sebelum adalah ${jsonList.length}');
+  //       jsonList.add(map);
+  //       print('Jumlah length setelah ditambah adalah ${jsonList.length}');
+  //       for (int a = 0; a < jsonList.length; a++) {
+  //         print('cek map semua adalah setelah ${jsonList[a]}');
+  //       }
+  //     }
+  //   }
+  //   return jsonList;
+  // }
+
+  // dynamic _getImageShipment(Shipment model) async {
+  //   if (model.SP_Optional == 'IMG') {
+  //     return await model.readFileByte(model.SP_Content);
+  //   } else {
+  //     return 'No IMG';
+  //   }
+  // }
+
+  // dynamic _getImageProduct(Shipment model) async {
+  //   if (model.SP_ProductionOptional == 'IMG') {
+  //     return await model.readFileByte(model.SP_ProductionContent);
+  //   } else {
+  //     return 'No IMG';
+  //   }
+  // }
+}

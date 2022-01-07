@@ -1,0 +1,128 @@
+part of '../screens.dart';
+
+class Sub1Screen extends StatefulWidget {
+  @override
+  _DatabaseManagerScreenState createState() => _DatabaseManagerScreenState();
+}
+
+class _DatabaseManagerScreenState extends State<Sub1Screen> {
+  Size size;
+  @override
+  Widget build(BuildContext context) {
+    size = MediaQuery.of(context).size;
+    return Container(
+      color: blueBackground,
+      height: size.height,
+      width: size.width,
+      child: ListView(
+        children: [
+          //header
+          Container(
+            height: 100,
+            padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+            width: size.width,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Icon(
+                  MdiIcons.database,
+                  color: Colors.white,
+                  size: 50,
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Database',
+                        style: blackFontStyle.copyWith(
+                            color: Colors.white, fontSize: 30),
+                      ),
+                      Text(
+                        'configurator',
+                        style: blackFontStyle2.copyWith(color: Colors.white),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+            decoration: BoxDecoration(
+              color: blueGeneralUse,
+              borderRadius: BorderRadius.only(bottomRight: Radius.circular(35)),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: defaultMargin, vertical: defaultMargin * 0.5),
+            child: Column(
+              children: [
+                Text(
+                  'too keep up to date\nplease update the database  periodically',
+                  style: blackFontStyle2.copyWith(color: greyColor),
+                  textAlign: TextAlign.center,
+                ),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  margin: EdgeInsets.only(top: 10, bottom: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Your Database :', style: blackFontStyle),
+                      SizedBox(
+                        height: 40,
+                        width: 125,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            //     signOut();
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'update all',
+                                style: blackFontStyle2.copyWith(
+                                    color: Colors.white),
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Icon(
+                                MdiIcons.databaseSync,
+                                size: 20,
+                                color: Colors.white,
+                              )
+                            ],
+                          ),
+                          style: ButtonStyle(
+                              elevation: MaterialStateProperty.all(0),
+                              shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8))),
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.orange)),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                DatabaseCard(
+                    title: 'Locator',
+                    lastUpdate: TimeStampUpdate.getLocatorUpdateTimeStamp(),
+                    dataLength: Locator.listofdata.length.toString(),
+                    onTap: () {}),
+                DatabaseCard(
+                    title: 'Product',
+                    lastUpdate: TimeStampUpdate.getProductUpdateTimeStamp(),
+                    dataLength: Production.listofdata.length.toString(),
+                    onTap: () {}),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

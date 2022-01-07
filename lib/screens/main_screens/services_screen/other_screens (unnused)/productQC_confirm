@@ -1,0 +1,29 @@
+part of '../../../screens.dart';
+
+class ProductQCConfirm extends StatelessWidget {
+  final String appBarTitle = 'Confirm';
+  final String yesButtonText = 'Submit Data';
+  final String noButtonText = 'Back';
+  final Function yesButton;
+  final Function noButton;
+  final Function backButton = () => Get.back();
+  final Widget child;
+
+  ProductQCConfirm(
+      {@required this.yesButton,
+      @required this.noButton,
+      @required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return ConfirmationPage(
+      appBarTitle: appBarTitle,
+      yesButtonText: yesButtonText,
+      yesButton: yesButton,
+      backButton: backButton,
+      noButtonText: noButtonText,
+      noButton: noButton,
+      child: child,
+    );
+  }
+}
