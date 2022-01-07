@@ -200,7 +200,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                     child: IconButton(
                                         onPressed: () {
                                           selectmethodtoupload(
-                                              this.context, 'Choose Image');
+                                              this.context, 'Choose Imagee');
                                           setState(() {});
                                         },
                                         icon: Icon(Icons.camera_alt))),
